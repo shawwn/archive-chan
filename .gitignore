@@ -110,3 +110,6 @@ target/
 
 # BASC-archiver
 /archive
+
+# PyCharm
+.idea/
