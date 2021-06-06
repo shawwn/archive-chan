@@ -56,7 +56,9 @@ it as ``archive-chan`` so others could use it too.
 
 If you have questions or want to report a bug, DM me on twitter! I'm
 `@theshawwn <https://twitter.com/theshawwn>`_; always happy to say
-hello. (Or you can `file a GitHub issue here <https://github.com/shawwn/archive-chan/issues/new>`_.)
+hello.
+
+(Or you can `file a GitHub issue here <https://github.com/shawwn/archive-chan/issues/new>`_.)
 
 The original `BASC Archiver README
 <https://github.com/bibanon/BASC-Archiver#README>`_ appears verbatim
