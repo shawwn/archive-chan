@@ -61,7 +61,7 @@ hello.
 (Or you can `file a GitHub issue here <https://github.com/shawwn/archive-chan/issues/new>`_.)
 
 The `original BASC Archiver README
-<https://github.com/bibanon/BASC-Archiver#README>`_ from 2018 appears verbatim
+<https://github.com/bibanon/BASC-Archiver#basc-archiver>`_ from 2018 appears verbatim
 below:
 
 Introduction
