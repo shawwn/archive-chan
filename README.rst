@@ -10,7 +10,7 @@ To archive a thread and host it using a simple webserver:
 ::
 
   pip3 install -U archive-chan
-  pip3 install http-server
+  npm i -g http-server
   archive-chan https://boards.4channel.org/vg/thread/338253176 --runonce
   cd archive/4chan
   http-server -p 1234 -c-1
