@@ -21,7 +21,7 @@ with codecs.open('README.rst') as file:
 
 setup(
     name='archive-chan',
-    version='0.1.1',
+    version='0.1.2',
     description='Makes a complete hostable archive of imageboard threads including images, HTML, and JSON.',
     long_description=long_description,
     author='Antonizoon Overtwater <antonizoon@bibanon.org>, Daniel Oaks <daniel@danieloaks.net>',
