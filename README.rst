@@ -1,5 +1,54 @@
-BASC Archiver
+archive-chan
 =============
+
+`archive-chan` archives threads from 4chan and other imageboards,
+including images and/or thumbnails, thread HTML, JSON if available,
+and produces a list of referenced external links.
+
+To archive a thread and host it using a simple webserver:
+
+::
+
+  pip3 install -U archive-chan
+  pip3 install http-server
+  archive-chan https://boards.4channel.org/vg/thread/338253176 --runonce
+  cd archive/4chan
+  http-server -p 1234 -c-1
+
+Then open `http://localhost:1234/vg/thread/338253176
+<http://localhost:1234/vg/thread/338253176>` in your browser. All
+thumbnail images, javascript, CSS, etc should work properly.
+
+Once you've verified it works fine locally, you can `rsync` the
+archive to your webserver.
+
+**NOTE**: You must symlink each board
+to the root directory of your static server, or else 4chan's JS
+won't work properly! In other words, make sure that the files are
+available via `your.webserver.com/vg/thread/338253176`, not
+`your.webserver.com/archive/4chan/vg/thread/338253176`.
+
+::
+
+  rsync -Pa archive/ user@your.webserver.com:/disk/sdb/archive/
+  ssh user@your.webserver.com
+  cd /disk/sdb/archive/4chan
+  for board in * ; do ln -s `realpath $board` /path/to/www/$board ; done
+
+(You can host the files using any webserver you like; personally, I
+use nginx + CloudFlare.)
+
+`archive-chan` was forked from `BASC Archiver
+<https://basc-archiver.readthedocs.io/en/latest/>`, which seemed to be
+unmaintained since 2018. It wasn't able to properly save 4chan
+threads, nor did it save threads in a format that could easily be
+hosted. So I created this quick fix for my needs in 2021, and released
+it as `archive-chan` so others could use it too.
+
+The original `BASC Archiver` README appears verbatim below.
+
+Introduction
+============
 
 The **BASC Archiver** is a Python library (packaged with the
 **thread-archiver** script) used to archive imageboard threads.
