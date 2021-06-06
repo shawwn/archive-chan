@@ -22,52 +22,44 @@ thumbnail images, javascript, CSS, etc should work properly.
 Once you've verified it works fine locally, you can ``rsync`` the
 archive to your webserver.
 
-**NOTE**: You must symlink each board
-to the root directory of your static server, or else 4chan's JS
-won't work properly! In other words, make sure that the files are
-available via `www.example.com/vg/thread/338253176
-<www.example.com/vg/thread/338253176>`_, not
-`www.example.com/archive/4chan/vg/thread/338253176
-<www.example.com/archive/4chan/vg/thread/338253176>`_. (Notice 
-/vg/ isn't after .com; that's bad. The board name needs to be directly
-after your domain name, at the root.)
-
 Here's an example of how you might serve 4chan threads in production.
-Suppose you own `www.example.com`, and you set up nginx so that
-``/path/to/www/foo.html`` on your server ends up being served at
-`www.example.com/foo.html`. You can host 4chan threads like this:
+Suppose you own `www.example.com <www.example.com>`_, and you set up
+nginx so that ``/path/to/www/foo.html`` on your server ends up being
+served at `www.example.com/foo.html <www.example.com/foo.html>`_. You
+can host 4chan threads like this:
 
 ::
 
-  # upload the archive somewhere on your server
-  rsync -Pa archive/ you@www.example.com:/path/to/archive/
-  # SSH into your server
-  ssh you@www.example.com
-  # switch to the archive directory, containing board names
-  cd /path/to/archive/4chan
-  # symlink each board to the directory being hosted by nginx
-  for board in * ; do ln -s $(pwd)/$board /path/to/www/$board ; done
+  rsync -Pa archive/4chan/ you@www.example.com:/path/to/www/
 
-(Or you can do this the not-stupid way, by figuring out how to make
-nginx serve ``/path/to/archive/`` directly as the root. But this is my
-stupid solution that works for me.)
+**NOTE**: You must ensure each board is at the *root* of your static
+server, or else 4chan's JS won't work properly! In other words, make
+sure that the threads are served at
+`www.example.com/vg/thread/338253176
+<www.example.com/vg/thread/338253176>`_, not
+`www.example.com/archive/4chan/vg/thread/338253176
+<www.example.com/archive/4chan/vg/thread/338253176>`_. (Notice /vg/
+isn't after .com; that's bad. The board name needs to be directly
+after your domain name, at the root, or else you won't be able to
+follow replies since 4chan's JS reply parser breaks for some reason.)
 
 You can host the files using any webserver you like. Personally, I use
 nginx + CloudFlare.
 
-`archive-chan` was forked from `BASC Archiver
-<https://basc-archiver.readthedocs.io/en/latest/>`_, which seemed to be
-unmaintained since 2018. It wasn't able to properly save 4chan
-threads, nor did it save threads in a format that could easily be
+``archive-chan`` was forked from `BASC Archiver
+<https://basc-archiver.readthedocs.io/en/latest/>`_, which seemed to
+be unmaintained since 2018. It wasn't able to properly save 4chan
+threads (because 4chan's image CDN subdomain had changed, which broke
+the regex), nor did it save threads in a format that could easily be
 hosted. So I created this quick fix for my needs in 2021, and released
-it as `archive-chan` so others could use it too.
+it as ``archive-chan`` so others could use it too.
 
 If you have questions or want to report a bug, DM me on twitter! I'm
 `@theshawwn <https://twitter.com/theshawwn>`_; always happy to say
-hello. (Or you can file a GitHub issue here.)
+hello. (Or you can `file a GitHub issue here <https://github.com/shawwn/archive-chan/issues/new>`_.)
 
 The original `BASC Archiver README
-<https://github.com/bibanon/BASC-Archiver#README>` appears verbatim
+<https://github.com/bibanon/BASC-Archiver#README>`_ appears verbatim
 below:
 
 Introduction
