@@ -60,15 +60,15 @@ FOURCHAN_THUMBS_URL = FOURCHAN_THUMBS + FOURCHAN_THUMBS_FOOTER
 
 # html parsing regex
 HTTP_HEADER_UNIV = r"https?://"  # works for both http and https links
-FOURCHAN_IMAGES_REGEX = r"/\w+/([0-9]+\.[a-zA-Z0-9]+)"
-FOURCHAN_THUMBS_REGEX = r"/\w+/([0-9]+s\.[a-zA-Z0-9]+)"
+FOURCHAN_IMAGES_REGEX = r"[is][\w\d]*?[.]4c[a-z]+?[.]org" + r"/[\w\d]+/([0-9]+\.[a-zA-Z0-9]+)"
+FOURCHAN_THUMBS_REGEX = r"[is][\w\d]*?[.]4c[a-z]+?[.]org" + r"/[\w\d]+/([0-9]+s\.[a-zA-Z0-9]+)"
 FOURCHAN_CSS_REGEX = r"/css/([\w\.\d]+.css)"
 FOURCHAN_JS_REGEX = r"/js/([\w\.\d]+.js)"
 CHILDREGEX = re.compile(r"""href="/([0-9a-zA-Z]+)/(?:res|thread)/([0-9]+)""")
 
 # regex links to 4chan servers
-FOURCHAN_IMAGES_URL_REGEX = re.compile(HTTP_HEADER_UNIV + FOURCHAN_IMAGES + FOURCHAN_IMAGES_REGEX)
-FOURCHAN_THUMBS_URL_REGEX = re.compile(HTTP_HEADER_UNIV + FOURCHAN_THUMBS + FOURCHAN_THUMBS_REGEX)
+FOURCHAN_IMAGES_URL_REGEX = re.compile(HTTP_HEADER_UNIV + FOURCHAN_IMAGES_REGEX)
+FOURCHAN_THUMBS_URL_REGEX = re.compile(HTTP_HEADER_UNIV + FOURCHAN_THUMBS_REGEX)
 FOURCHAN_CSS_URL_REGEX = re.compile(HTTP_HEADER_UNIV + FOURCHAN_STATIC + '/css/')
 FOURCHAN_JS_URL_REGEX = re.compile(HTTP_HEADER_UNIV + FOURCHAN_STATIC + '/js/')
 
@@ -136,9 +136,10 @@ class FourChanSiteArchiver(BaseSiteArchiver):
 
         # add thread to download list
         with self.threads_lock:
+            board_dir = os.path.join(board_name, 'thread')
             self.threads[thread_id] = {
                 'board': board_name,
-                'dir': self.base_thread_dir.format(board=board_name, thread=thread_id),
+                'dir': self.base_thread_dir.format(board=board_dir, thread=thread_id),
                 'thread_id': thread_id,
                 'total_files': 0,
                 'images_downloaded': 0,
@@ -161,8 +162,9 @@ class FourChanSiteArchiver(BaseSiteArchiver):
                 return True
 
             board_name = item.info['board']
+            board_dir = os.path.join(board_name, 'thread')
             thread_id = item.info['thread_id']
-            images_dir = self.base_images_dir.format(board=board_name, thread=thread_id)
+            images_dir = self.base_images_dir.format(board=board_dir, thread=thread_id)
             filename = item.info['filename']
 
             file_url = http_header + FOURCHAN_IMAGES_URL % (board_name, filename)
@@ -191,8 +193,9 @@ class FourChanSiteArchiver(BaseSiteArchiver):
                 return True
 
             board_name = item.info['board']
+            board_dir = os.path.join(board_name, 'thread')
             thread_id = item.info['thread_id']
-            thumbs_dir = self.base_thumbs_dir.format(board=board_name, thread=thread_id)
+            thumbs_dir = self.base_thumbs_dir.format(board=board_dir, thread=thread_id)
             filename = item.info['filename']
 
             file_url = http_header + FOURCHAN_THUMBS_URL % (board_name, filename)
@@ -218,8 +221,9 @@ class FourChanSiteArchiver(BaseSiteArchiver):
         # thread
         elif item.dl_type == 'thread':
             board_name = item.info['board']
+            board_dir = os.path.join(board_name, 'thread')
             thread_id = item.info['thread_id']
-            thread_dir = self.base_thread_dir.format(board=board_name, thread=thread_id)
+            thread_dir = self.base_thread_dir.format(board=board_dir, thread=thread_id)
 
             with self.threads_lock:
                 status_info = self.threads[thread_id]
@@ -351,6 +355,12 @@ class FourChanSiteArchiver(BaseSiteArchiver):
             url = http_header + FOURCHAN_BOARDS_URL % (board_name, thread_id)
 
             if utils.download_file(local_filename, url, clobber=True):
+                try:
+                  # symlink index.html -> {thread_id}.html so that
+                  # static webservers can easily host it
+                  os.symlink('{}.html'.format(thread_id), os.path.join(thread_dir, 'index.html'))
+                except OSError:
+                  pass
                 # get css files
                 if not self.options.skip_css:
                     css_dir = os.path.join(thread_dir, _CSS_DIR_NAME)
