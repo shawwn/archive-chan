@@ -1,7 +1,7 @@
 archive-chan
 =============
 
-`archive-chan` archives threads from 4chan and other imageboards,
+``archive-chan`` archives threads from 4chan and other imageboards,
 including images and/or thumbnails, thread HTML, JSON if available,
 and produces a list of referenced external links.
 
@@ -19,14 +19,18 @@ Then open `http://localhost:1234/vg/thread/338253176
 <http://localhost:1234/vg/thread/338253176>`_ in your browser. All
 thumbnail images, javascript, CSS, etc should work properly.
 
-Once you've verified it works fine locally, you can `rsync` the
+Once you've verified it works fine locally, you can ``rsync`` the
 archive to your webserver.
 
 **NOTE**: You must symlink each board
 to the root directory of your static server, or else 4chan's JS
 won't work properly! In other words, make sure that the files are
-available via `your.webserver.com/vg/thread/338253176`_, not
-`your.webserver.com/archive/4chan/vg/thread/338253176`_.
+available via `your.webserver.com/vg/thread/338253176
+<your.webserver.com/vg/thread/338253176>`_, not
+`your.webserver.com/archive/4chan/vg/thread/338253176
+<your.webserver.com/archive/4chan/vg/thread/338253176>`_. (Notice 
+/vg/ isn't after .com; that's bad. The board name needs to be directly
+after your domain name, at the root.)
 
 ::
 
@@ -49,7 +53,7 @@ If you have questions or want to report a bug, DM me on twitter! I'm
 `@theshawwn <https://twitter.com/theshawwn>`_; always happy to say
 hello. (Or you can file a GitHub issue here.)
 
-The original `BASC Archiver` README appears verbatim below:
+The original ``BASC Archiver`` README appears verbatim below:
 
 Introduction
 ============
