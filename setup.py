@@ -10,7 +10,7 @@ except ImportError:
     from distutils.core import setup
 
 if sys.argv[-1] == 'publish':
-    os.system('python setup.py sdist upload')
+    os.system('python3 setup.py sdist upload')
     sys.exit()
 
 with codecs.open('README.rst') as file:
@@ -20,14 +20,16 @@ with codecs.open('README.rst') as file:
 
 
 setup(
-    name='BASC-Archiver',
-    version='0.9.9',
-    description='Makes a complete archive of imageboard threads including images, HTML, and JSON.',
+    name='archive-chan',
+    version='0.1.0',
+    description='Makes a complete hostable archive of imageboard threads including images, HTML, and JSON.',
     long_description=long_description,
     author='Antonizoon Overtwater <antonizoon@bibanon.org>, Daniel Oaks <daniel@danieloaks.net>',
     author_email='antonizoon@bibanon.org',
-    url='https://github.com/bibanon/BASC-Archiver',
-    scripts=['thread-archiver', '4chan-thread-archiver', 'archive-nabber'],
+    maintainer='Shawn Presser <twitter.com/theshawwn>',
+    maintainer_email='shawnpresser@gmail.com',
+    url='https://github.com/shawwn/archive-chan',
+    scripts=['thread-archiver', '4chan-thread-archiver', 'archive-nabber', 'archive-chan'],
     packages=['basc_archiver', 'basc_archiver.sites'],
     package_dir={
         'basc_archiver': 'basc_archiver',

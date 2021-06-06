@@ -1,24 +1,34 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 # BASC Imageboard Archiver
 from __future__ import absolute_import
 from __future__ import print_function
 from docopt import docopt
+import os
 import sys
 import time
 
 from basc_archiver import version, Options, Archiver
 
-__doc__ = """BASC-Archiver.
+__doc__ = """Forked from BASC-Archiver. It appeared to be unmaintained since 2018,
+so I created this quick fix for my needs in 2021.
 
 Archives threads from 4chan and other imageboards, including images and/or
 thumbnails, thread HTML, JSON if available, and produces a list of
 referenced external links.
 
+To archive a thread, then host it using a simple webserver:
+
+  pip3 install http-server
+  {exe} https://boards.4channel.org/vg/thread/338253176 --runonce
+  cd archive/4chan
+  http-server -p 1234 -c-1
+  open http://localhost:1234/vg/thread/338253176
+
 Usage:
-  thread-archiver <url>... [options]
-  thread-archiver -h | --help
-  thread-archiver -V | --version
+  {exe} <url>... [options]
+  {exe} -h | --help
+  {exe} -V | --version
 
 Options:
   --path=<string>                Path to folder where archives will be saved [default: ./archive]
@@ -40,10 +50,10 @@ Options:
   -v --verbose                   Printout more information than normal
   -h --help                      Show help
   -V --version                   Show version
-"""
+""".format(exe=os.path.basename(sys.argv[0]))
 
 if __name__ == '__main__':
-    args = docopt(__doc__, version='BASC-Archiver v{}'.format(version))
+    args = docopt(__doc__, version='archive-chan v{}'.format(version))
 
     options = Options(args['--path'], args['--ssl'],
                       silent=args['--silent'],
