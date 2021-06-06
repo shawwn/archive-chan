@@ -16,7 +16,7 @@ To archive a thread and host it using a simple webserver:
   http-server -p 1234 -c-1
 
 Then open `http://localhost:1234/vg/thread/338253176
-<http://localhost:1234/vg/thread/338253176>` in your browser. All
+<http://localhost:1234/vg/thread/338253176>`_ in your browser. All
 thumbnail images, javascript, CSS, etc should work properly.
 
 Once you've verified it works fine locally, you can `rsync` the
@@ -25,8 +25,8 @@ archive to your webserver.
 **NOTE**: You must symlink each board
 to the root directory of your static server, or else 4chan's JS
 won't work properly! In other words, make sure that the files are
-available via `your.webserver.com/vg/thread/338253176`, not
-`your.webserver.com/archive/4chan/vg/thread/338253176`.
+available via `your.webserver.com/vg/thread/338253176`_, not
+`your.webserver.com/archive/4chan/vg/thread/338253176`_.
 
 ::
 
@@ -39,13 +39,17 @@ available via `your.webserver.com/vg/thread/338253176`, not
 use nginx + CloudFlare.)
 
 `archive-chan` was forked from `BASC Archiver
-<https://basc-archiver.readthedocs.io/en/latest/>`, which seemed to be
+<https://basc-archiver.readthedocs.io/en/latest/>`_, which seemed to be
 unmaintained since 2018. It wasn't able to properly save 4chan
 threads, nor did it save threads in a format that could easily be
 hosted. So I created this quick fix for my needs in 2021, and released
 it as `archive-chan` so others could use it too.
 
-The original `BASC Archiver` README appears verbatim below.
+If you have questions or want to report a bug, DM me on twitter! I'm
+`@theshawwn <https://twitter.com/theshawwn>`_; always happy to say
+hello. (Or you can file a GitHub issue here.)
+
+The original `BASC Archiver` README appears verbatim below:
 
 Introduction
 ============
