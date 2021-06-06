@@ -19,9 +19,9 @@ referenced external links.
 
 To archive a thread, then host it using a simple webserver:
 
-  pip3 install http-server
   {exe} https://boards.4channel.org/vg/thread/338253176 --runonce
   cd archive/4chan
+  npm i -g http-server
   http-server -p 1234 -c-1
   open http://localhost:1234/vg/thread/338253176
 
