@@ -25,22 +25,35 @@ archive to your webserver.
 **NOTE**: You must symlink each board
 to the root directory of your static server, or else 4chan's JS
 won't work properly! In other words, make sure that the files are
-available via `your.webserver.com/vg/thread/338253176
-<your.webserver.com/vg/thread/338253176>`_, not
-`your.webserver.com/archive/4chan/vg/thread/338253176
-<your.webserver.com/archive/4chan/vg/thread/338253176>`_. (Notice 
+available via `www.example.com/vg/thread/338253176
+<www.example.com/vg/thread/338253176>`_, not
+`www.example.com/archive/4chan/vg/thread/338253176
+<www.example.com/archive/4chan/vg/thread/338253176>`_. (Notice 
 /vg/ isn't after .com; that's bad. The board name needs to be directly
 after your domain name, at the root.)
 
+Here's an example of how you might serve 4chan threads in production.
+Suppose you own `www.example.com`, and you set up nginx so that
+``/path/to/www/foo.html`` on your server ends up being served at
+`www.example.com/foo.html`. You can host 4chan threads like this:
+
 ::
 
-  rsync -Pa archive/ user@your.webserver.com:/disk/sdb/archive/
-  ssh user@your.webserver.com
-  cd /disk/sdb/archive/4chan
-  for board in * ; do ln -s `realpath $board` /path/to/www/$board ; done
+  # upload the archive somewhere on your server
+  rsync -Pa archive/ you@www.example.com:/path/to/archive/
+  # SSH into your server
+  ssh you@www.example.com
+  # switch to the archive directory, containing board names
+  cd /path/to/archive/4chan
+  # symlink each board to the directory being hosted by nginx
+  for board in * ; do ln -s $(pwd)/$board /path/to/www/$board ; done
 
-(You can host the files using any webserver you like; personally, I
-use nginx + CloudFlare.)
+(Or you can do this the not-stupid way, by figuring out how to make
+nginx serve ``/path/to/archive/`` directly as the root. But this is my
+stupid solution that works for me.)
+
+You can host the files using any webserver you like. Personally, I use
+nginx + CloudFlare.
 
 `archive-chan` was forked from `BASC Archiver
 <https://basc-archiver.readthedocs.io/en/latest/>`_, which seemed to be
@@ -53,7 +66,9 @@ If you have questions or want to report a bug, DM me on twitter! I'm
 `@theshawwn <https://twitter.com/theshawwn>`_; always happy to say
 hello. (Or you can file a GitHub issue here.)
 
-The original ``BASC Archiver`` README appears verbatim below:
+The original `BASC Archiver README
+<https://github.com/bibanon/BASC-Archiver#README>` appears verbatim
+below:
 
 Introduction
 ============
